@@ -79,6 +79,12 @@ public class Witch : MonoBehaviour
         {
             if (_collider.IsTouching(Zone.Collider))
             {
+                if (Zone.Equals(CurrentZone))
+                {
+                    FoundZone = true;
+                    break;
+                }
+                
                 if (Zone.AddWitch(this))
                 {
                     Debug.Log("added in " + Zone.name);

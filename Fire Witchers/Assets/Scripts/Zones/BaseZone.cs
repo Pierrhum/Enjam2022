@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum ZoneType
@@ -10,6 +11,7 @@ public abstract class BaseZone : MonoBehaviour
 {
     // Serialized Fields
     public int MaxWitches;
+    public TextMeshProUGUI WitchNumber;
     
     // NonSerialized fields
     [System.NonSerialized] public BoxCollider2D Collider;
@@ -28,8 +30,12 @@ public abstract class BaseZone : MonoBehaviour
     public bool AddWitch(Witch witch)
     {
         bool CanAddWitch = Witches.Count < MaxWitches;
-        
-        if(CanAddWitch) Witches.Add(witch);
+
+        if (CanAddWitch)
+        {
+            Witches.Add(witch);
+            WitchNumber.text = Witches.Count + " / " + MaxWitches;
+        }
         if (Witches.Count > 0) ZoneCoroutine = StartCoroutine(ZoneAction());
         return CanAddWitch; // true if added
     }
@@ -37,6 +43,7 @@ public abstract class BaseZone : MonoBehaviour
     public void RemoveWitch(Witch witch)
     {
         Witches.Remove(witch);
+        WitchNumber.text = Witches.Count + " / " + MaxWitches;
         if (Witches.Count == 0) StopCoroutine(ZoneCoroutine);
     }
 

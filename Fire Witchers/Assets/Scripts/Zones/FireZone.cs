@@ -12,6 +12,6 @@ public class FireZone : BaseZone
 
     protected override IEnumerator ZoneAction()
     {
-        throw new NotImplementedException();
+        yield return null;
     }
 }

@@ -13,7 +13,7 @@ public class AnimalsState : BaseState
     {
         Debug.Log("AnimalsState");
         
-        if (_witch.CurrentZone != GameManager.Instance.AnimalZone) return typeof(WaitingState);
+        if (_witch.CurrentZone.Type != ZoneType.ANIMALS) return typeof(WaitingState);
         return null;
     }
 }

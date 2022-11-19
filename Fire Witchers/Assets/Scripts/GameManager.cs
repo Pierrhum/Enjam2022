@@ -12,11 +12,6 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public int CurrentNbWitches = 3;
 
     public List<BaseZone> Zones;
-    public FireZone FireZone;
-    public AnimalsZone AnimalZone;
-    public TrainingZone TrainingZone;
-    public SpawnZone SpawnZone;
-    public RestZone RestZone;
     private void Awake()
     {
         Instance = this;
