@@ -3,27 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimalsZone : BaseZone
+public class TrainingZone : BaseZone
 {
-    public int RequiredTime = 30;
-    public int RemovedTimeByWitch = 5;
+    public int RequiredTime = 20;
+    public int RemovedTimeByWitch = 3;
     private int CurrentTime = 0;
     private void Awake()
     {
-        Init(ZoneType.ANIMALS);
+        Init(ZoneType.TRAINING);
     }
 
     protected override IEnumerator ZoneAction()
     {
-        while (GameManager.Instance.AnimalsCount < GameManager.Instance.AnimalsRequired)
+        while (GameManager.Instance.CurrentNbWitches < GameManager.Instance.MaxNbWitches)
         {
             if (CurrentTime % (RequiredTime - (Witches.Count * RemovedTimeByWitch)) == 0)
             {
-                GameManager.Instance.AnimalsCount++;
+                Debug.Log("SPAWN Witch");
             }
             CurrentTime ++;
             yield return new WaitForSeconds(1);
         }
-        // TODO : Load Win Screen
     }
 }

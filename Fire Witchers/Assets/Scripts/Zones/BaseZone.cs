@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ZoneType
 {
-    CREATION, REST, FIRE, ANIMALS, ZAWN
+    TRAINING, REST, FIRE, ANIMALS, ZAWN
 }
 public abstract class BaseZone : MonoBehaviour
 {
