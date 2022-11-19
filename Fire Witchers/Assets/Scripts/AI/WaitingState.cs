@@ -20,7 +20,6 @@ public class WaitingState : BaseState
                     break;
                 case ZoneType.ANIMALS:
                     return typeof(AnimalsState);
-                    break;
                 case ZoneType.TRAINING:
                     break;
                 case ZoneType.ZAWN:

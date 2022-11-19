@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public int MaxNbWitches = 10;
     [System.NonSerialized] public int CurrentNbWitches = 3;
 
+    public List<BaseZone> Zones;
     public FireZone FireZone;
     public AnimalsZone AnimalZone;
     public TrainingZone TrainingZone;

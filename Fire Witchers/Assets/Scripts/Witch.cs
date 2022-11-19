@@ -24,7 +24,10 @@ public class Witch : MonoBehaviour
         {
             {typeof(WaitingState), new WaitingState(witch: this)}, 
             {typeof(FireState), new FireState(witch: this)}, 
-            {typeof(AnimalsState), new AnimalsState(witch: this)}
+            {typeof(AnimalsState), new AnimalsState(witch: this)}, 
+            {typeof(SpawnState), new SpawnState(witch: this)}, 
+            {typeof(TrainingState), new TrainingState(witch: this)}, 
+            {typeof(RestState), new RestState(witch: this)}
         };
 
         GetComponent<StateMachine>().SetStates(states);
@@ -71,23 +74,26 @@ public class Witch : MonoBehaviour
         }
 
         // Zone Checking
-        if (_collider.IsTouching(GameManager.Instance.FireZone.Collider))
+        bool FoundZone = false;
+        foreach(BaseZone Zone in GameManager.Instance.Zones)
         {
-            if(GameManager.Instance.FireZone.AddWitch(this)) CurrentZone = GameManager.Instance.FireZone;
-            else Debug.Log("can't add in Fire zone");
-        } 
-        else if (_collider.IsTouching(GameManager.Instance.AnimalZone.Collider))
-        {
-            if(GameManager.Instance.AnimalZone.AddWitch(this)) CurrentZone = GameManager.Instance.AnimalZone;
-        }
-        else
-        {
-            if (CurrentZone != null)
+            if (_collider.IsTouching(Zone.Collider))
             {
-                CurrentZone.RemoveWitch(this);
-                CurrentZone = null;
+                if (Zone.AddWitch(this))
+                {
+                    Debug.Log("added in " + Zone.name);
+                    CurrentZone = Zone;
+                    FoundZone = true;
+                }
+                else Debug.Log("can't add in " + Zone.name);
             }
-        }; 
+        }
+        
+        if(CurrentZone != null && !FoundZone)
+        {
+            CurrentZone.RemoveWitch(this);
+            CurrentZone = null;
+        }
     }
 
 }

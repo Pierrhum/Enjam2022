@@ -13,9 +13,9 @@ public abstract class BaseZone : MonoBehaviour
     
     // NonSerialized fields
     [System.NonSerialized] public BoxCollider2D Collider;
+    [System.NonSerialized] public ZoneType Type;
     protected List<Witch> Witches;
     protected Coroutine ZoneCoroutine;
-    public ZoneType Type;
     
     public void Init(ZoneType type)
     {
