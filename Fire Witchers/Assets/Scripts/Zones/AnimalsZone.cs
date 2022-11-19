@@ -18,9 +18,8 @@ public class AnimalsZone : BaseZone
         while (GameManager.Instance.AnimalsCount < GameManager.Instance.AnimalsRequired)
         {
             if (CurrentTime % (RequiredTime - (Witches.Count * RemovedTimeByWitch)) == 0)
-            {
-                GameManager.Instance.AnimalsCount++;
-            }
+                GameManager.Instance.IncrAnimals();
+            
             CurrentTime ++;
             yield return new WaitForSeconds(1);
         }

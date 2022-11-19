@@ -12,8 +12,25 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public int CurrentNbWitches = 3;
 
     public List<BaseZone> Zones;
+    public HUD _HUD;
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        _HUD.SetAnimalText(AnimalsCount + " / " + AnimalsRequired);
+    }
+
+    public void IncrAnimals()
+    {
+        AnimalsCount++;
+        _HUD.SetAnimalText(AnimalsCount + " / " + AnimalsRequired);
+
+        if (AnimalsCount == AnimalsRequired)
+        {
+            //TODO : Load Win Screen
+        }
     }
 }
