@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,6 +26,11 @@ public abstract class BaseZone : MonoBehaviour
         Type = type;
 
         Witches = new List<Witch>();
+    }
+
+    private void Start()
+    {
+        WitchNumber.text = Witches.Count + " / " + MaxWitches;
     }
 
     public bool AddWitch(Witch witch)

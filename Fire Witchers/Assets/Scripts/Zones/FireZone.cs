@@ -5,13 +5,20 @@ using UnityEngine;
 
 public class FireZone : BaseZone
 {
+    public int ReducedTimeByWitches = 2;
     private void Awake()
     {
         Init(ZoneType.FIRE);
     }
 
+    public int GetReducedTime()
+    {
+        return Witches.Count * ReducedTimeByWitches;
+    }
+
     protected override IEnumerator ZoneAction()
     {
+        // TODO : Baisser stamina witches
         yield return null;
     }
 }

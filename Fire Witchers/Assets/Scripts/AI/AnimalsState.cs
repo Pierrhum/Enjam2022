@@ -13,7 +13,8 @@ public class AnimalsState : BaseState
     {
         Debug.Log("AnimalsState");
         
-        if (_witch.CurrentZone.Type != ZoneType.ANIMALS) return typeof(WaitingState);
+        if (_witch.CurrentZone == null
+        || _witch.CurrentZone.Type != ZoneType.ANIMALS) return typeof(WaitingState);
         return null;
     }
 }

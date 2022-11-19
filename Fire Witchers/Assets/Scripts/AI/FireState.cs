@@ -13,7 +13,8 @@ public class FireState : BaseState
     public override Type Tick()
     {
         Debug.Log("FireState");
-        if (_witch.CurrentZone.Type != ZoneType.FIRE) return typeof(WaitingState);
+        if (_witch.CurrentZone == null ||
+            _witch.CurrentZone.Type != ZoneType.FIRE) return typeof(WaitingState);
         return null;
     }
 }
