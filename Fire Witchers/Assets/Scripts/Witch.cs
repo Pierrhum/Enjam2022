@@ -23,7 +23,8 @@ public class Witch : MonoBehaviour
         var states = new Dictionary<Type, BaseState>()
         {
             {typeof(WaitingState), new WaitingState(witch: this)}, 
-            {typeof(FireState), new FireState(witch: this)}
+            {typeof(FireState), new FireState(witch: this)}, 
+            {typeof(AnimalsState), new AnimalsState(witch: this)}
         };
 
         GetComponent<StateMachine>().SetStates(states);
@@ -75,6 +76,10 @@ public class Witch : MonoBehaviour
             if(GameManager.Instance.FireZone.AddWitch(this)) CurrentZone = GameManager.Instance.FireZone;
             else Debug.Log("can't add in Fire zone");
         } 
+        else if (_collider.IsTouching(GameManager.Instance.AnimalZone.Collider))
+        {
+            if(GameManager.Instance.AnimalZone.AddWitch(this)) CurrentZone = GameManager.Instance.AnimalZone;
+        }
         else
         {
             if (CurrentZone != null)

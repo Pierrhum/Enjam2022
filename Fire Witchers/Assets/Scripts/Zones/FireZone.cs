@@ -9,4 +9,9 @@ public class FireZone : BaseZone
     {
         Init(ZoneType.FIRE);
     }
+
+    protected override IEnumerator ZoneAction()
+    {
+        throw new NotImplementedException();
+    }
 }

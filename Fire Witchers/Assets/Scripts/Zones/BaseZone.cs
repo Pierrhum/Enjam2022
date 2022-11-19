@@ -14,6 +14,7 @@ public abstract class BaseZone : MonoBehaviour
     // NonSerialized fields
     [System.NonSerialized] public BoxCollider2D Collider;
     protected List<Witch> Witches;
+    protected Coroutine ZoneCoroutine;
     public ZoneType Type;
     
     public void Init(ZoneType type)
@@ -29,11 +30,15 @@ public abstract class BaseZone : MonoBehaviour
         bool CanAddWitch = Witches.Count < MaxWitches;
         
         if(CanAddWitch) Witches.Add(witch);
+        if (Witches.Count > 0) ZoneCoroutine = StartCoroutine(ZoneAction());
         return CanAddWitch; // true if added
     }
 
     public void RemoveWitch(Witch witch)
     {
         Witches.Remove(witch);
+        if (Witches.Count == 0) StopCoroutine(ZoneCoroutine);
     }
+
+    protected abstract IEnumerator ZoneAction();
 }
