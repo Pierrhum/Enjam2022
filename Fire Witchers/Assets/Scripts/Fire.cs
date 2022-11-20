@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class Fire : MonoBehaviour
-{
+public class Fire : MonoBehaviour {
+    public FireSpawner spawner;
     public AudioSource Fire1;
     public AudioSource Fire2;
     public AudioSource Fire3;
@@ -38,6 +38,8 @@ public class Fire : MonoBehaviour
             if (CurrentTime > StepTime + _FireZone.GetReducedTime())
             {
                 CurrentStep++;
+                if(CurrentStep%5==0) spawner.SpawnFlames(CurrentStep <= MaxStep / 2 ? 10 : 
+                                                        CurrentStep+10 > MaxStep ? 30 : 20);
                 if(CurrentStep==MaxStep/2) Fire2.Play();
                 else if(CurrentStep==MaxStep-10) Fire3.Play();
                 CurrentTime = 0f;
