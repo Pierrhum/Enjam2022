@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+public enum GameState {NORMAL, WIN, LOOSE}
 public class GameManager : MonoBehaviour
 {
+    public GameState State = GameState.NORMAL;
     public AudioSource Music;
     public int AnimalsCount = 0;
     public int AnimalsRequired = 2;
@@ -19,6 +22,8 @@ public class GameManager : MonoBehaviour
     {
         Fire = GetComponent<Fire>();
         Instance = this;
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -42,5 +47,18 @@ public class GameManager : MonoBehaviour
         _HUD.SetAnimalText(AnimalsCount + " / " + AnimalsRequired);
         yield return StartCoroutine(_HUD.Fade(true));
         Fire.Begin();
+    }
+
+    public void EndGame(bool victory)
+    {
+        State = victory ? GameState.WIN : GameState.LOOSE;
+        StopAllCoroutines();
+        StartCoroutine(EndCoroutine());
+    }
+
+    private IEnumerator EndCoroutine()
+    {
+        yield return _HUD.Fade(false);
+        SceneManager.LoadScene("TitleScreen");
     }
 }

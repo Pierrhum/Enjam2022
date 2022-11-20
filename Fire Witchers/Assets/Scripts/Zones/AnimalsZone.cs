@@ -28,6 +28,8 @@ public class AnimalsZone : BaseZone
             witchesToRemove.ForEach(w => RemoveWitch(w));
             yield return new WaitForSeconds(1);
         }
-        // TODO : Load Win Screen
+
+        // Load Win Screen
+        GameManager.Instance.EndGame(true);
     }
 }

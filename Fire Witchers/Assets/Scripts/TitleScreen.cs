@@ -13,6 +13,8 @@ public class TitleScreen : MonoBehaviour
     public AudioSource Music;
     public GameObject Title;
     public GameObject HowToPLay;
+    public TextMeshProUGUI EndTitle;
+    public TextMeshProUGUI EndMessage;
     public TextMeshProUGUI Advice;
     public Image Fade;
     public Image Background;
@@ -27,8 +29,30 @@ public class TitleScreen : MonoBehaviour
     void Start()
     {
         FadeCoroutine = StartCoroutine(Utils.UI.Fade(new List<Image>{Fade}, 1f,0f,5f));
+        if (GameManager.Instance == null || GameManager.Instance.State == GameState.NORMAL)
+        {
+            Title.SetActive(true);
+            Advice.gameObject.SetActive(true);
+            StartCoroutine(AdviceCoroutine(1f));
+            EndTitle.text = EndMessage.text = "";
+        } 
+        else if (GameManager.Instance.State == GameState.WIN)
+        {
+            Title.SetActive(false);
+            Advice.gameObject.SetActive(false);
+            EndTitle.text = "YOU WIN !";
+            EndMessage.text = "Congrats ! You saved every single animal of the forest !";
+            StartCoroutine(EndCoroutine());
+        }
+        else
+        {
+            Title.SetActive(false);
+            Advice.gameObject.SetActive(false);
+            EndTitle.text = "YOU LOOSE";
+            EndMessage.text = "You've let the poor animals burn...";
+            StartCoroutine(EndCoroutine());
+        }
         AnimateTrees();
-        StartCoroutine(AdviceCoroutine(1f));
     }
 
     private void AnimateTrees()
@@ -78,16 +102,35 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    private IEnumerator EndCoroutine()
+    {
+        float timer = 0f;
+        yield return FadeCoroutine;
+        while (timer < 4f)
+            timer += Time.deltaTime;
+        timer = 0f;
+        yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Fade}, 0f,1f,3f, Music));
+        GameManager.Instance.State = GameState.NORMAL;
+        SceneManager.LoadScene("TitleScreen");
+    }
+
     private void Update()
     {
-        if (!FadingOut && Input.GetKeyDown(KeyCode.Space))
+        if (GameManager.Instance != null && GameManager.Instance.State != GameState.NORMAL)
         {
-            if(Step==0)
-                StartCoroutine(HowToPlayTransiton());
-            else
-                StartCoroutine(LoadLevelTransition());
+            
+        }
+        else
+        {
+            if (!FadingOut && Input.GetKeyDown(KeyCode.Space))
+            {
+                if(Step==0)
+                    StartCoroutine(HowToPlayTransiton());
+                else
+                    StartCoroutine(LoadLevelTransition());
 
-            Step++;
+                Step++;
+            }
         }
     }
 
