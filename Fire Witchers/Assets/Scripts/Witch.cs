@@ -9,9 +9,11 @@ using UnityEngine.UI;
 public class Witch : MonoBehaviour
 {
     public int MaxEnergy = 20;
+    public GameObject Books;
     public GameObject InterrogationSprite;
     public GameObject EnergySprite;
     public Image EnergyFill;
+    [System.NonSerialized] public Animator Animator;
     [System.NonSerialized] public int CurrentEnergy;
     [System.NonSerialized] public bool isDragged = false;
     [System.NonSerialized] public BaseZone CurrentZone;
@@ -22,6 +24,7 @@ public class Witch : MonoBehaviour
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
+        Animator = GetComponent<Animator>();
         InitializeStateMachine();
     }
 

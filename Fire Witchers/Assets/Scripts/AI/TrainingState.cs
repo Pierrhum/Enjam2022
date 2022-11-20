@@ -12,6 +12,8 @@ public class TrainingState : BaseState
 
     public override Type Tick()
     {
+        _witch.Animator.SetBool("isBooking", true);
+        _witch.Books.SetActive(true);
         if (_witch.CurrentZone == null ||
          _witch.CurrentZone.Type != ZoneType.TRAINING) return typeof(WaitingState);
         return null;
