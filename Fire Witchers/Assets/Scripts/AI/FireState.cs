@@ -14,6 +14,7 @@ public class FireState : BaseState
     {
         if (_witch.CurrentZone == null ||
             _witch.CurrentZone.Type != ZoneType.FIRE) return typeof(WaitingState);
+        
         return null;
     }
 }
