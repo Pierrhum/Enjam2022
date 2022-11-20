@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Coffee.UIEffects;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,8 +10,10 @@ using UnityEngine.UI;
 public class TitleScreen : MonoBehaviour
 {
 
+    public AudioSource Music;
     public GameObject Title;
     public GameObject HowToPLay;
+    public TextMeshProUGUI Advice;
     public Image Fade;
     public Image Background;
     public Image TreesBackground;
@@ -25,12 +28,36 @@ public class TitleScreen : MonoBehaviour
     {
         FadeCoroutine = StartCoroutine(Utils.UI.Fade(new List<Image>{Fade}, 1f,0f,5f));
         AnimateTrees();
+        StartCoroutine(AdviceCoroutine(1f));
     }
 
     private void AnimateTrees()
     {
         StartCoroutine(TreesBackgroundCoroutine());
         StartCoroutine(TreesForegroundCoroutine());
+    }
+
+    private IEnumerator AdviceCoroutine(float duration)
+    {
+        AnimationCurve smoothCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0f, 0f), new Keyframe(1f, 1f) });
+        float alpha = 0f;
+        float timer = 0f;
+        bool In = true;
+        while (!FadingOut)
+        {
+            alpha = In ? Mathf.Lerp(0f, 1f, smoothCurve.Evaluate(timer / duration)) : Mathf.Lerp(1f, 0f, smoothCurve.Evaluate(timer / duration));
+            Advice.color = new Color(Advice.color.r, Advice.color.g, Advice.color.b, alpha);
+
+            if (alpha >= 1f || alpha <= 0f)
+            {
+                In = !In;
+                timer = 0f;
+            }
+            timer += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        yield return null;
     }
 
     private IEnumerator TreesBackgroundCoroutine()
@@ -74,13 +101,13 @@ public class TitleScreen : MonoBehaviour
         yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Fade}, 1f,0f,1f));
         FadingOut = false;
         AnimateTrees();
+        StartCoroutine(AdviceCoroutine(1f));
     }
 
     private IEnumerator LoadLevelTransition()
     {
         FadingOut = true;
-        StopCoroutine(FadeCoroutine);
-        yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Fade}, Fade.color.a,1f,2f));
+        yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Fade}, Fade.color.a,1f,2f, Music));
         SceneManager.LoadScene("MainLevel");
     }
 }

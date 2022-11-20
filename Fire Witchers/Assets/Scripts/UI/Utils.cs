@@ -16,7 +16,7 @@ namespace Utils {
             Color c = image.color;
             image.color = new Color(c.r, c.g, c.b, a);
         }
-        public static IEnumerator Fade(List<Image> images, float start, float end, float duration)
+        public static IEnumerator Fade(List<Image> images, float start, float end, float duration, AudioSource source=null)
         {
             float timer = 0f;
             AnimationCurve smoothCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0f, 0f), new Keyframe(1f, 1f) });
@@ -28,6 +28,8 @@ namespace Utils {
                 {
                     Color c = img.color;
                     img.color = new Color(c.r, c.g, c.b, Mathf.Lerp(start, end, smoothCurve.Evaluate(timer / duration)));
+                    if (source != null)
+                        source.volume = Mathf.Lerp(start > end ? 0 : 1, start > end ? 1 : 0, smoothCurve.Evaluate(timer / duration));
                 }
                 yield return new WaitForSeconds(Time.deltaTime);
             }
