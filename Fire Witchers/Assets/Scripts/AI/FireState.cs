@@ -12,6 +12,7 @@ public class FireState : BaseState
 
     public override Type Tick()
     {
+        _witch.Animator.SetBool("Back", true);
         if (_witch.CurrentZone == null ||
             _witch.CurrentZone.Type != ZoneType.FIRE) return typeof(WaitingState);
         

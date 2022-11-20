@@ -11,7 +11,7 @@ public class AnimalsState : BaseState
 
     public override Type Tick()
     {
-        Debug.Log("AnimalsState");
+        _witch.Animator.SetBool("Back", true);
         
         if (_witch.CurrentZone == null
         || _witch.CurrentZone.Type != ZoneType.ANIMALS) return typeof(WaitingState);

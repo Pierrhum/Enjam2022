@@ -14,6 +14,7 @@ public class WaitingState : BaseState
     public override Type Tick()
     {
         _witch.Animator.SetBool("isBooking", false);
+        _witch.Animator.SetBool("Back", false);
         _witch.Books.SetActive(false);
         if (_witch.CurrentZone != null)
         {
