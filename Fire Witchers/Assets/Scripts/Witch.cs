@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Witch : MonoBehaviour
 {
-    public int Energy = 20;
+    public int MaxEnergy = 20;
     public GameObject InterrogationSprite;
+    public GameObject EnergySprite;
+    public Image EnergyFill;
+    [System.NonSerialized] public int CurrentEnergy;
     [System.NonSerialized] public BaseZone CurrentZone;
     private StateMachine StateMachine => GetComponent<StateMachine>();
 
@@ -18,7 +23,13 @@ public class Witch : MonoBehaviour
         _collider = GetComponent<BoxCollider2D>();
         InitializeStateMachine();
     }
-    
+
+    private void Start()
+    {
+        EnergySprite.SetActive(false);
+        CurrentEnergy = MaxEnergy;
+    }
+
     private void InitializeStateMachine()
     {
         var states = new Dictionary<Type, BaseState>()
@@ -43,14 +54,12 @@ public class Witch : MonoBehaviour
     
     public void OnHover(BaseEventData data)
     {
-        // TODO : Start Glowing effect 
-        GetComponent<SpriteRenderer>().color = Color.red;
+        EnergySprite.SetActive(true);
     }
 
     public void OnExit(BaseEventData data)
     {
-        // TODO : Stop Glowing effect 
-        GetComponent<SpriteRenderer>().color = Color.white;
+        EnergySprite.SetActive(false);
     }
     public void OnDrag(BaseEventData data)
     {
@@ -67,34 +76,46 @@ public class Witch : MonoBehaviour
     public void OnDrop(BaseEventData data)
     {
         // Zone Checking
-        bool FoundZone = false;
-        foreach(BaseZone Zone in GameManager.Instance.Zones)
+        if (CurrentEnergy > 0)
         {
-            if (_collider.IsTouching(Zone.Collider))
+            bool FoundZone = false;
+            foreach(BaseZone Zone in GameManager.Instance.Zones)
             {
-                if (Zone.Equals(CurrentZone))
+                if (_collider.IsTouching(Zone.Collider))
                 {
-                    FoundZone = true;
-                    break;
-                }
+                    if (Zone.Equals(CurrentZone))
+                    {
+                        FoundZone = true;
+                        break;
+                    }
                 
-                if (Zone.AddWitch(this))
-                {
-                    CurrentZone = Zone;
-                    FoundZone = true;
+                    if (Zone.AddWitch(this))
+                    {
+                        CurrentZone = Zone;
+                        FoundZone = true;
+                    }
                 }
             }
+        
+            if(CurrentZone != null && !FoundZone)
+            {
+                CurrentZone.RemoveWitch(this);
+                CurrentZone = null;
+            }
         }
-        
-        if(CurrentZone != null && !FoundZone)
-        {
-            CurrentZone.RemoveWitch(this);
-            CurrentZone = null;
-        }
-        
-        
-        if (CurrentZone == null)
+        else if (CurrentZone == null)
             InterrogationSprite.SetActive(true);
+    }
+
+    public void UpdateEnergy(int delta)
+    {
+        CurrentEnergy += delta;
+        EnergyFill.fillAmount = (float)CurrentEnergy / MaxEnergy;
+        
+        if (CurrentEnergy <= 0)
+            CurrentZone = null;
+        
+        else if (CurrentEnergy > MaxEnergy) CurrentEnergy = MaxEnergy;
     }
 
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class AnimalsZone : BaseZone
 {
+    public int EnergyCost = 1;
     public int RequiredTime = 30;
     public int RemovedTimeByWitch = 5;
     private int CurrentTime = 0;
@@ -21,6 +22,10 @@ public class AnimalsZone : BaseZone
                 GameManager.Instance.IncrAnimals();
             
             CurrentTime ++;
+            Witches.ForEach(w => w.UpdateEnergy(-EnergyCost));
+                
+            List<Witch> witchesToRemove = Witches.FindAll(w => w.CurrentEnergy <= 0);
+            witchesToRemove.ForEach(w => RemoveWitch(w));
             yield return new WaitForSeconds(1);
         }
         // TODO : Load Win Screen

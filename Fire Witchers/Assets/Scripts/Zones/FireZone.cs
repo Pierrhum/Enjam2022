@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FireZone : BaseZone
 {
+    public int EnergyCost = 2;
     public int ReducedTimeByWitches = 2;
     private void Awake()
     {

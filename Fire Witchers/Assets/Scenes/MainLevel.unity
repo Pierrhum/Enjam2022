@@ -481,6 +481,7 @@ MonoBehaviour:
   MaxWitches: 2
   WitchNumber: {fileID: 2058927593}
   SpawnZone: {fileID: 1456038975}
+  EnergyCost: 1
   RequiredTime: 5
   RemovedTimeByWitch: 3
 --- !u!212 &171914965
@@ -1905,6 +1906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxWitches: 4
   WitchNumber: {fileID: 767317945}
+  EnergyCost: 2
   ReducedTimeByWitches: 2
 --- !u!61 &1118104191
 BoxCollider2D:
@@ -3790,6 +3792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxWitches: 4
   WitchNumber: {fileID: 1343097265}
+  EnergyCost: 1
   RequiredTime: 30
   RemovedTimeByWitch: 5
 --- !u!212 &1755993751
@@ -3870,7 +3873,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -4642,6 +4645,22 @@ PrefabInstance:
     - target: {fileID: 6677723016582958525, guid: 19dec999e64228345b48bae7a4336f06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125141906448680299, guid: 19dec999e64228345b48bae7a4336f06, type: 3}
+      propertyPath: m_Color.b
+      value: 0.3773585
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125141906448680299, guid: 19dec999e64228345b48bae7a4336f06, type: 3}
+      propertyPath: m_Color.g
+      value: 0.3129231
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125141906448680299, guid: 19dec999e64228345b48bae7a4336f06, type: 3}
+      propertyPath: m_Color.r
+      value: 0.07262369
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125141906448680299, guid: 19dec999e64228345b48bae7a4336f06, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19dec999e64228345b48bae7a4336f06, type: 3}
