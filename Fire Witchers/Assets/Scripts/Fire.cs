@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class Fire : MonoBehaviour
 {
+    public AudioSource Fire1;
+    public AudioSource Fire2;
+    public AudioSource Fire3;
     public int MaxStep = 50;
     public int StartStepSec = 8;
     public int MidStepSec = 5;
@@ -35,6 +38,8 @@ public class Fire : MonoBehaviour
             if (CurrentTime > StepTime + _FireZone.GetReducedTime())
             {
                 CurrentStep++;
+                if(CurrentStep==MaxStep/2) Fire2.Play();
+                else if(CurrentStep==MaxStep-10) Fire3.Play();
                 CurrentTime = 0f;
             }
             
