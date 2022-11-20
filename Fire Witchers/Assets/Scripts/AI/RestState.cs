@@ -11,6 +11,9 @@ public class RestState : BaseState
 
     public override Type Tick()
     {
-        throw new NotImplementedException();
+        if (_witch.CurrentZone == null ||
+            _witch.CurrentZone.Type != ZoneType.REST) return typeof(WaitingState);
+        
+        return null;
     }
 }

@@ -3,10 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Witch : MonoBehaviour
 {
+    public int MaxEnergy = 20;
     public GameObject InterrogationSprite;
+    public GameObject EnergySprite;
+    public Image EnergyFill;
+    [System.NonSerialized] public int CurrentEnergy;
+    [System.NonSerialized] public bool isDragged = false;
     [System.NonSerialized] public BaseZone CurrentZone;
     private StateMachine StateMachine => GetComponent<StateMachine>();
 
@@ -17,7 +24,13 @@ public class Witch : MonoBehaviour
         _collider = GetComponent<BoxCollider2D>();
         InitializeStateMachine();
     }
-    
+
+    private void Start()
+    {
+        EnergySprite.SetActive(false);
+        CurrentEnergy = MaxEnergy;
+    }
+
     private void InitializeStateMachine()
     {
         var states = new Dictionary<Type, BaseState>()
@@ -42,17 +55,16 @@ public class Witch : MonoBehaviour
     
     public void OnHover(BaseEventData data)
     {
-        // TODO : Start Glowing effect 
-        GetComponent<SpriteRenderer>().color = Color.red;
+        EnergySprite.SetActive(true);
     }
 
     public void OnExit(BaseEventData data)
     {
-        // TODO : Stop Glowing effect 
-        GetComponent<SpriteRenderer>().color = Color.white;
+        EnergySprite.SetActive(false);
     }
     public void OnDrag(BaseEventData data)
     {
+        isDragged = true;
         //Create a ray going from the camera through the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //Calculate the distance between the Camera and the GameObject, and go this distance along the ray
@@ -60,38 +72,31 @@ public class Witch : MonoBehaviour
         //Move the GameObject when you drag it
         transform.position = rayPoint;
 
-        if (StateMachine.CurrentState is WaitingState)
-        {
-            InterrogationSprite.SetActive(false);
-        }
+        InterrogationSprite.SetActive(false);
     }
 
     public void OnDrop(BaseEventData data)
     {
-        if (StateMachine.CurrentState is WaitingState)
-        {
-            InterrogationSprite.SetActive(true);
-        }
-
+        isDragged = false;
         // Zone Checking
+        
         bool FoundZone = false;
         foreach(BaseZone Zone in GameManager.Instance.Zones)
         {
-            if (_collider.IsTouching(Zone.Collider))
+            if (_collider.IsTouching(Zone.Collider)
+                && (CurrentEnergy > 0 || Zone is RestZone))
             {
                 if (Zone.Equals(CurrentZone))
                 {
                     FoundZone = true;
                     break;
                 }
-                
+            
                 if (Zone.AddWitch(this))
                 {
-                    Debug.Log("added in " + Zone.name);
                     CurrentZone = Zone;
                     FoundZone = true;
                 }
-                else Debug.Log("can't add in " + Zone.name);
             }
         }
         
@@ -100,6 +105,20 @@ public class Witch : MonoBehaviour
             CurrentZone.RemoveWitch(this);
             CurrentZone = null;
         }
+            
+        else if (CurrentZone == null)
+            InterrogationSprite.SetActive(true);
+    }
+
+    public void UpdateEnergy(int delta)
+    {
+        CurrentEnergy += delta;
+        EnergyFill.fillAmount = (float)CurrentEnergy / MaxEnergy;
+        
+        if (CurrentEnergy <= 0)
+            CurrentZone = null;
+        
+        else if (CurrentEnergy > MaxEnergy) CurrentEnergy = MaxEnergy;
     }
 
 }

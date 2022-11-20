@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FireZone : BaseZone
 {
+    public int EnergyCost = 2;
     public int ReducedTimeByWitches = 2;
     private void Awake()
     {
@@ -18,7 +19,13 @@ public class FireZone : BaseZone
 
     protected override IEnumerator ZoneAction()
     {
-        // TODO : Baisser stamina witches
-        yield return null;
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            Witches.ForEach(w => w.UpdateEnergy(-EnergyCost)); 
+            
+            List<Witch> witchesToRemove = Witches.FindAll(w => w.CurrentEnergy <= 0);
+            witchesToRemove.ForEach(w => RemoveWitch(w));
+        }
     }
 }

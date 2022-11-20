@@ -39,6 +39,8 @@ public abstract class BaseZone : MonoBehaviour
 
         if (CanAddWitch)
         {
+            if(witch.CurrentZone != null)
+                witch.CurrentZone.RemoveWitch(witch);
             Witches.Add(witch);
             WitchNumber.text = Witches.Count + " / " + MaxWitches;
         }
