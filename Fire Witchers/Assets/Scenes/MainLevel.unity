@@ -480,8 +480,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxWitches: 2
   WitchNumber: {fileID: 2058927593}
-  SpawnZone: {fileID: 0}
-  RequiredTime: 20
+  SpawnZone: {fileID: 1456038975}
+  RequiredTime: 5
   RemovedTimeByWitch: 3
 --- !u!212 &171914965
 SpriteRenderer:
@@ -3095,7 +3095,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxWitches: 10
   WitchNumber: {fileID: 682358956}
-  WitchPrefab: {fileID: 0}
+  WitchPrefab: {fileID: 6677723016582958497, guid: 19dec999e64228345b48bae7a4336f06, type: 3}
+  width: 0
 --- !u!212 &1456038976
 SpriteRenderer:
   m_ObjectHideFlags: 0
