@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public AudioSource Music;
     public int AnimalsCount = 0;
     public int AnimalsRequired = 2;
     public static GameManager Instance;

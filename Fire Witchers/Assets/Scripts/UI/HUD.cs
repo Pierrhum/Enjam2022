@@ -13,13 +13,13 @@ public class HUD : MonoBehaviour
     {
         if (In)
         {
-            yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Overlay}, Overlay.color.a,0f,2f));
+            yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Overlay}, Overlay.color.a,0f,2f, GameManager.Instance.Music));
             Overlay.enabled = false;
         }
         else
         {
             Overlay.enabled = true;
-            yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Overlay}, Overlay.color.a,1f,2f));
+            yield return StartCoroutine(Utils.UI.Fade(new List<Image>{Overlay}, Overlay.color.a,1f,2f, GameManager.Instance.Music));
         }
     }
     public void SetAnimalText(string Text)
