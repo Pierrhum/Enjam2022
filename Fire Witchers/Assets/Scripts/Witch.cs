@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Witch : MonoBehaviour
 {
+    public int Energy = 20;
     public GameObject InterrogationSprite;
     [System.NonSerialized] public BaseZone CurrentZone;
     private StateMachine StateMachine => GetComponent<StateMachine>();
@@ -60,19 +61,11 @@ public class Witch : MonoBehaviour
         //Move the GameObject when you drag it
         transform.position = rayPoint;
 
-        if (StateMachine.CurrentState is WaitingState)
-        {
-            InterrogationSprite.SetActive(false);
-        }
+        InterrogationSprite.SetActive(false);
     }
 
     public void OnDrop(BaseEventData data)
     {
-        if (StateMachine.CurrentState is WaitingState)
-        {
-            InterrogationSprite.SetActive(true);
-        }
-
         // Zone Checking
         bool FoundZone = false;
         foreach(BaseZone Zone in GameManager.Instance.Zones)
@@ -87,11 +80,9 @@ public class Witch : MonoBehaviour
                 
                 if (Zone.AddWitch(this))
                 {
-                    Debug.Log("added in " + Zone.name);
                     CurrentZone = Zone;
                     FoundZone = true;
                 }
-                else Debug.Log("can't add in " + Zone.name);
             }
         }
         
@@ -100,6 +91,10 @@ public class Witch : MonoBehaviour
             CurrentZone.RemoveWitch(this);
             CurrentZone = null;
         }
+        
+        
+        if (CurrentZone == null)
+            InterrogationSprite.SetActive(true);
     }
 
 }
