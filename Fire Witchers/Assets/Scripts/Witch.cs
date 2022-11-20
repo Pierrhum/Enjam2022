@@ -79,33 +79,33 @@ public class Witch : MonoBehaviour
     {
         isDragged = false;
         // Zone Checking
-        if (CurrentEnergy > 0)
+        
+        bool FoundZone = false;
+        foreach(BaseZone Zone in GameManager.Instance.Zones)
         {
-            bool FoundZone = false;
-            foreach(BaseZone Zone in GameManager.Instance.Zones)
+            if (_collider.IsTouching(Zone.Collider)
+                && (CurrentEnergy > 0 || Zone is RestZone))
             {
-                if (_collider.IsTouching(Zone.Collider))
+                if (Zone.Equals(CurrentZone))
                 {
-                    if (Zone.Equals(CurrentZone))
-                    {
-                        FoundZone = true;
-                        break;
-                    }
-                
-                    if (Zone.AddWitch(this))
-                    {
-                        CurrentZone = Zone;
-                        FoundZone = true;
-                    }
+                    FoundZone = true;
+                    break;
+                }
+            
+                if (Zone.AddWitch(this))
+                {
+                    CurrentZone = Zone;
+                    FoundZone = true;
                 }
             }
-        
-            if(CurrentZone != null && !FoundZone)
-            {
-                CurrentZone.RemoveWitch(this);
-                CurrentZone = null;
-            }
         }
+        
+        if(CurrentZone != null && !FoundZone)
+        {
+            CurrentZone.RemoveWitch(this);
+            CurrentZone = null;
+        }
+            
         else if (CurrentZone == null)
             InterrogationSprite.SetActive(true);
     }
