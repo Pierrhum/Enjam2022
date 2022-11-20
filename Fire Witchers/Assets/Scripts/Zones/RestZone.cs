@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RestZone : BaseZone
 {
+    public int EnergyGain = 2;
     private void Awake()
     {
         Init(ZoneType.REST);
@@ -12,6 +13,10 @@ public class RestZone : BaseZone
 
     protected override IEnumerator ZoneAction()
     {
-        throw new System.NotImplementedException();
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            Witches.ForEach(w => w.UpdateEnergy(EnergyGain));
+        }
     }
 }

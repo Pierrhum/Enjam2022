@@ -13,6 +13,7 @@ public class Witch : MonoBehaviour
     public GameObject EnergySprite;
     public Image EnergyFill;
     [System.NonSerialized] public int CurrentEnergy;
+    [System.NonSerialized] public bool isDragged = false;
     [System.NonSerialized] public BaseZone CurrentZone;
     private StateMachine StateMachine => GetComponent<StateMachine>();
 
@@ -63,6 +64,7 @@ public class Witch : MonoBehaviour
     }
     public void OnDrag(BaseEventData data)
     {
+        isDragged = true;
         //Create a ray going from the camera through the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //Calculate the distance between the Camera and the GameObject, and go this distance along the ray
@@ -75,6 +77,7 @@ public class Witch : MonoBehaviour
 
     public void OnDrop(BaseEventData data)
     {
+        isDragged = false;
         // Zone Checking
         if (CurrentEnergy > 0)
         {

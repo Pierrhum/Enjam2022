@@ -16,8 +16,8 @@ public class SpawnZone : BaseZone
     public void Spawn()
     {
         GameObject go = Instantiate(WitchPrefab);
-        go.GetComponent<Witch>().CurrentZone = this;
-        AddWitch(go.GetComponent<Witch>());
+        if(AddWitch(go.GetComponent<Witch>()))
+            go.GetComponent<Witch>().CurrentZone = this;
         GameManager.Instance.CurrentNbWitches++;
     }
     
