@@ -35,11 +35,6 @@ public class GameManager : MonoBehaviour
     {
         AnimalsCount++;
         _HUD.SetAnimalText(AnimalsCount + " / " + AnimalsRequired);
-
-        if (AnimalsCount == AnimalsRequired)
-        {
-            //TODO : Load Win Screen
-        }
     }
 
     private IEnumerator StartCoroutine()
