@@ -47,5 +47,6 @@ public class Fire : MonoBehaviour
             CurrentTime += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
+        GameManager.Instance.EndGame(false);
     }
 }

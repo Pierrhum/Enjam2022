@@ -35,6 +35,7 @@ public class TitleScreen : MonoBehaviour
             Advice.gameObject.SetActive(true);
             StartCoroutine(AdviceCoroutine(1f));
             EndTitle.text = EndMessage.text = "";
+            if(GameManager.Instance != null) Destroy(GameManager.Instance.gameObject);
         } 
         else if (GameManager.Instance.State == GameState.WIN)
         {
