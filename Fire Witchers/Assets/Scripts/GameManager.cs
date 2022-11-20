@@ -13,14 +13,16 @@ public class GameManager : MonoBehaviour
 
     public List<BaseZone> Zones;
     public HUD _HUD;
+    private Fire Fire;
     private void Awake()
     {
+        Fire = GetComponent<Fire>();
         Instance = this;
     }
 
     private void Start()
     {
-        _HUD.SetAnimalText(AnimalsCount + " / " + AnimalsRequired);
+        StartCoroutine(StartCoroutine());
     }
 
     public void IncrAnimals()
@@ -32,5 +34,12 @@ public class GameManager : MonoBehaviour
         {
             //TODO : Load Win Screen
         }
+    }
+
+    private IEnumerator StartCoroutine()
+    {
+        _HUD.SetAnimalText(AnimalsCount + " / " + AnimalsRequired);
+        yield return StartCoroutine(_HUD.Fade(true));
+        Fire.Begin();
     }
 }
