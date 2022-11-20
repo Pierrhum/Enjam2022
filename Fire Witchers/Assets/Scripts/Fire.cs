@@ -10,6 +10,9 @@ public class Fire : MonoBehaviour {
     public AudioSource Fire1;
     public AudioSource Fire2;
     public AudioSource Fire3;
+    public AudioSource Music1;
+    public AudioSource Music2;
+    public AudioSource Music3;
     public int MaxStep = 50;
     public int StartStepSec = 8;
     public int MidStepSec = 5;
@@ -40,7 +43,13 @@ public class Fire : MonoBehaviour {
                 CurrentStep++;
                 if(CurrentStep%5==0) spawner.SpawnFlames(CurrentStep <= MaxStep / 2 ? 10 : 
                                                         CurrentStep+10 > MaxStep ? 30 : 20);
-                if(CurrentStep==MaxStep/2) Fire2.Play();
+                if (CurrentStep == MaxStep / 2)
+                {
+                    Music1.Stop();
+                    Music2.Stop();
+                    Music3.Play();
+                    Fire2.Play();
+                }
                 else if(CurrentStep==MaxStep-10) Fire3.Play();
                 CurrentTime = 0f;
             }
